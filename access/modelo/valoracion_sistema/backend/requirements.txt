@@ -1,0 +1,19 @@
+# Dependencias del Sistema de Valoración de Software
+# Para instalar: pip install -r requirements.txt
+
+Flask==2.3.3
+Flask-CORS==4.0.0
+Werkzeug==2.3.7
+
+# Base de datos
+sqlite3  # Incluido en Python estándar
+
+# Utilidades
+uuid      # Incluido en Python estándar
+datetime  # Incluido en Python estándar
+json      # Incluido en Python estándar
+math      # Incluido en Python estándar
+
+# Opcional para producción
+gunicorn==21.2.0  # Servidor WSGI para producción
+python-dotenv==1.0.0  # Variables de entorno

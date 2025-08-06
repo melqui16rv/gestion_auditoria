@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Estandarizado de Valoración de Software - Colombia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        .step-indicator.active {
+            background: #3B82F6;
+            color: white;
+        }
+        .step-indicator.completed {
+            background: #10B981;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect text-white py-6 mb-8">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold">Sistema de Valoración de Software</h1>
+                    <p class="text-blue-100 mt-1">Basado en ISO/IEC 25010:2023 • Colombia 2025</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-blue-100">Valoraciones realizadas</div>
+                    <div id="contador-valoraciones" class="text-2xl font-bold">0</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6">
+        <!-- Indicador de Pasos -->
+        <div class="mb-8">
+            <div class="flex justify-center space-x-4">
+                <div class="step-indicator active px-4 py-2 rounded-full text-sm font-medium" data-step="1">
+                    1. Información General
+                </div>
+                <div class="step-indicator bg-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium" data-step="2">
+                    2. Características Técnicas
+                </div>
+                <div class="step-indicator bg-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium" data-step="3">
+                    3. Calidad ISO 25010
+                </div>
+                <div class="step-indicator bg-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium" data-step="4">
+                    4. Valor de Negocio
+                </div>
+                <div class="step-indicator bg-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium" data-step="5">
+                    5. Resultados
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario Principal -->
+        <div class="max-w-4xl mx-auto">
+            <form id="formulario-valoracion" class="space-y-8">
+                
+                <!-- PASO 1: INFORMACIÓN GENERAL -->
+                <div id="paso-1" class="form-step">
+                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span>
+                            Información General del Software
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Tipo de Software *
+                                </label>
+                                <select id="tipo-software" name="tipo_software" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                    <option value="">Seleccione el tipo de software</option>
+                                    <option value="aplicativo_gestion">Aplicativo de Gestión/CRUD</option>
+                                    <option value="sistema_auditoria">Sistema de Auditoría</option>
+                                    <option value="aplicativo_reportes">Aplicativo de Reportes</option>
+                                    <option value="sistema_web">Sistema Web Corporativo</option>
+                                    <option value="aplicativo_escritorio">Aplicativo de Escritorio</option>
+                                    <option value="sistema_integracion">Sistema de Integración</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Tecnología Principal *
+                                </label>
+                                <select id="tecnologia-principal" name="tecnologia_principal" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                    <option value="">Seleccione la tecnología</option>
+                                    <!-- Legacy -->
+                                    <optgroup label="🔧 Legacy / Básico">
+                                        <option value="access_vba">Microsoft Access + VBA</option>
+                                        <option value="vb_net">Visual Basic .NET</option>
+                                        <option value="excel_vba">Excel + VBA</option>
+                                    </optgroup>
+                                    <!-- Web Tradicional -->
+                                    <optgroup label="🌐 Web Tradicional">
+                                        <option value="php_basic">PHP Básico</option>
+                                        <option value="asp_net_webforms">ASP.NET WebForms</option>
+                                        <option value="jsp_servlet">JSP/Servlets</option>
+                                    </optgroup>
+                                    <!-- Moderno -->
+                                    <optgroup label="⚡ Tecnologías Modernas">
+                                        <option value="php_laravel">PHP + Laravel</option>
+                                        <option value="javascript_react">JavaScript + React</option>
+                                        <option value="javascript_angular">JavaScript + Angular</option>
+                                        <option value="python_django">Python + Django</option>
+                                        <option value="python_flask">Python + Flask</option>
+                                        <option value="asp_net_core">ASP.NET Core</option>
+                                        <option value="java_spring">Java + Spring</option>
+                                    </optgroup>
+                                    <!-- Enterprise -->
+                                    <optgroup label="🏢 Enterprise">
+                                        <option value="microservicios">Arquitectura de Microservicios</option>
+                                        <option value="arquitectura_distribuida">Arquitectura Distribuida</option>
+                                        <option value="cloud_native">Cloud Native</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    ¿Cuántos años lleva el sistema en producción? (Opcional)
+                                </label>
+                                <input type="number" id="antiguedad-anos" name="antiguedad_anos" min="0" max="25" 
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       placeholder="Ej: 0 (si es nuevo), 3 (si lleva 3 años en uso)">
+                                <p class="text-xs text-gray-500 mt-1">Solo para sistemas que siguen en uso activo. No afecta proyectos terminados.</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    ¿El sistema sigue en uso activo?
+                                </label>
+                                <select id="en-uso-activo" name="en_uso_activo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="false">No - Es solo valoración del proyecto terminado</option>
+                                    <option value="true">Sí - Sigue en producción/uso</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Sector de Aplicación
+                                </label>
+                                <select id="sector" name="sector" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="privado">Sector Privado</option>
+                                    <option value="publico">Sector Público</option>
+                                    <option value="financiero">Sector Financiero</option>
+                                    <option value="salud">Sector Salud</option>
+                                    <option value="educacion">Sector Educación</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Descripción del Software (Opcional)
+                            </label>
+                            <textarea id="descripcion" name="descripcion" rows="3" 
+                                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      placeholder="Breve descripción de las funcionalidades principales del software..."></textarea>
+                        </div>
+                        
+                        <div class="flex justify-end mt-8">
+                            <button type="button" onclick="siguientePaso()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                Siguiente →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 2: CARACTERÍSTICAS TÉCNICAS -->
+                <div id="paso-2" class="form-step hidden">
+                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+                            Características Técnicas
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Usuarios Concurrentes Máximos
+                                </label>
+                                <select id="usuarios-concurrentes" name="usuarios_concurrentes" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="1">1 usuario</option>
+                                    <option value="5">2-5 usuarios</option>
+                                    <option value="10">6-10 usuarios</option>
+                                    <option value="25">11-25 usuarios</option>
+                                    <option value="50">26-50 usuarios</option>
+                                    <option value="100">51-100 usuarios</option>
+                                    <option value="250">101-250 usuarios</option>
+                                    <option value="500">251-500 usuarios</option>
+                                    <option value="1000">500+ usuarios</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Número Total de Usuarios
+                                </label>
+                                <input type="number" id="usuarios-totales" name="usuarios_totales" min="1" 
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       placeholder="Ej: 50">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Tipo de Base de Datos
+                                </label>
+                                <select id="tipo-bd" name="tipo_bd" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="simple">Archivo local (Access, SQLite, Excel)</option>
+                                    <option value="profesional">Base de datos profesional (MySQL, PostgreSQL, SQL Server Express)</option>
+                                    <option value="enterprise">Base de datos enterprise (SQL Server, Oracle, DB2)</option>
+                                    <option value="distribuida">Base de datos distribuida/NoSQL</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Número de Integraciones Externas
+                                </label>
+                                <input type="number" id="integraciones-externas" name="integraciones_externas" min="0" max="20"
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       placeholder="Ej: 2">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                Funcionalidades Implementadas
+                            </label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="funcionalidades" value="autenticacion_avanzada" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Autenticación y roles avanzados</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="funcionalidades" value="reportes_complejos" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Reportes y dashboards complejos</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="funcionalidades" value="integracion_externa" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Integración con sistemas externos</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="funcionalidades" value="workflow_aprobaciones" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Workflows y aprobaciones</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="funcionalidades" value="dashboard_ejecutivo" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Dashboard ejecutivo</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="funcionalidades" value="api_rest" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">APIs REST/Web Services</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="pasoAnterior()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                                ← Anterior
+                            </button>
+                            <button type="button" onclick="siguientePaso()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                Siguiente →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 3: CALIDAD ISO 25010 -->
+                <div id="paso-3" class="form-step hidden">
+                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">3</span>
+                            Evaluación de Calidad (ISO/IEC 25010:2023)
+                        </h2>
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                            <p class="text-sm text-blue-700">
+                                <strong>Instrucciones:</strong> Evalúe cada característica en una escala del 1 al 5, donde:
+                                1 = Muy deficiente, 2 = Deficiente, 3 = Aceptable, 4 = Bueno, 5 = Excelente
+                            </p>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <!-- Security -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-semibold text-gray-800">🔒 Seguridad (Security)</h3>
+                                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Peso: 20%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Protección de información y datos, autenticación, autorización, trazabilidad.</p>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="security" value="1" class="mr-1"> 1</label>
+                                    <label class="flex items-center"><input type="radio" name="security" value="2" class="mr-1"> 2</label>
+                                    <label class="flex items-center"><input type="radio" name="security" value="3" class="mr-1"> 3</label>
+                                    <label class="flex items-center"><input type="radio" name="security" value="4" class="mr-1"> 4</label>
+                                    <label class="flex items-center"><input type="radio" name="security" value="5" class="mr-1"> 5</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Functional Suitability -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-semibold text-gray-800">⚙️ Idoneidad Funcional (Functional Suitability)</h3>
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Peso: 18%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Grado en que el software proporciona funciones que satisfacen necesidades expresas e implícitas.</p>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="functional_suitability" value="1" class="mr-1"> 1</label>
+                                    <label class="flex items-center"><input type="radio" name="functional_suitability" value="2" class="mr-1"> 2</label>
+                                    <label class="flex items-center"><input type="radio" name="functional_suitability" value="3" class="mr-1"> 3</label>
+                                    <label class="flex items-center"><input type="radio" name="functional_suitability" value="4" class="mr-1"> 4</label>
+                                    <label class="flex items-center"><input type="radio" name="functional_suitability" value="5" class="mr-1"> 5</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Reliability -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-semibold text-gray-800">🛡️ Fiabilidad (Reliability)</h3>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Peso: 15%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Capacidad de mantener un nivel específico de rendimiento bajo condiciones establecidas por un período determinado.</p>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="reliability" value="1" class="mr-1"> 1</label>
+                                    <label class="flex items-center"><input type="radio" name="reliability" value="2" class="mr-1"> 2</label>
+                                    <label class="flex items-center"><input type="radio" name="reliability" value="3" class="mr-1"> 3</label>
+                                    <label class="flex items-center"><input type="radio" name="reliability" value="4" class="mr-1"> 4</label>
+                                    <label class="flex items-center"><input type="radio" name="reliability" value="5" class="mr-1"> 5</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Maintainability -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-semibold text-gray-800">🔧 Mantenibilidad (Maintainability)</h3>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Peso: 12%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Facilidad con la que el software puede ser modificado para corregir defectos, mejorar rendimiento u otros atributos.</p>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="maintainability" value="1" class="mr-1"> 1</label>
+                                    <label class="flex items-center"><input type="radio" name="maintainability" value="2" class="mr-1"> 2</label>
+                                    <label class="flex items-center"><input type="radio" name="maintainability" value="3" class="mr-1"> 3</label>
+                                    <label class="flex items-center"><input type="radio" name="maintainability" value="4" class="mr-1"> 4</label>
+                                    <label class="flex items-center"><input type="radio" name="maintainability" value="5" class="mr-1"> 5</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Performance Efficiency -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-semibold text-gray-800">⚡ Eficiencia de Rendimiento (Performance Efficiency)</h3>
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">Peso: 10%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Rendimiento relativo a la cantidad de recursos utilizados bajo condiciones declaradas.</p>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="performance_efficiency" value="1" class="mr-1"> 1</label>
+                                    <label class="flex items-center"><input type="radio" name="performance_efficiency" value="2" class="mr-1"> 2</label>
+                                    <label class="flex items-center"><input type="radio" name="performance_efficiency" value="3" class="mr-1"> 3</label>
+                                    <label class="flex items-center"><input type="radio" name="performance_efficiency" value="4" class="mr-1"> 4</label>
+                                    <label class="flex items-center"><input type="radio" name="performance_efficiency" value="5" class="mr-1"> 5</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Usability -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-semibold text-gray-800">👥 Usabilidad (Usability)</h3>
+                                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Peso: 10%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Grado en que el software puede ser entendido, aprendido, usado y resultar atractivo para el usuario.</p>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="usability" value="1" class="mr-1"> 1</label>
+                                    <label class="flex items-center"><input type="radio" name="usability" value="2" class="mr-1"> 2</label>
+                                    <label class="flex items-center"><input type="radio" name="usability" value="3" class="mr-1"> 3</label>
+                                    <label class="flex items-center"><input type="radio" name="usability" value="4" class="mr-1"> 4</label>
+                                    <label class="flex items-center"><input type="radio" name="usability" value="5" class="mr-1"> 5</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="pasoAnterior()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                                ← Anterior
+                            </button>
+                            <button type="button" onclick="siguientePaso()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                Siguiente →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 4: VALOR DE NEGOCIO -->
+                <div id="paso-4" class="form-step hidden">
+                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">4</span>
+                            Valor de Negocio y Cumplimiento
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Criticidad para el Negocio
+                                </label>
+                                <select id="criticidad-negocio" name="criticidad_negocio" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="1">1 - Muy baja (herramientas auxiliares)</option>
+                                    <option value="2">2 - Baja (procesos de soporte)</option>
+                                    <option value="3" selected>3 - Media (procesos operativos)</option>
+                                    <option value="4">4 - Alta (procesos críticos)</option>
+                                    <option value="5">5 - Muy alta (procesos misionales)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Ahorro Anual Estimado (COP)
+                                </label>
+                                <input type="number" id="ahorro-anual" name="ahorro_anual_cop" min="0" 
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       placeholder="Ej: 5000000">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                Cumplimiento y Regulaciones
+                            </label>
+                            <div class="space-y-3">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="genera-reportes" name="genera_reportes_oficiales" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Genera reportes oficiales para entes de control</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="auditoria-logs" name="requiere_auditoria_logs" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Requiere logs de auditoría detallados</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="interoperabilidad" name="interoperabilidad_govco" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Cumple estándares de interoperabilidad Gov.co</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="datos-personales" name="maneja_datos_personales" class="w-4 h-4 text-blue-600">
+                                    <span class="text-sm">Maneja datos personales (Ley Habeas Data)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Observaciones Adicionales
+                            </label>
+                            <textarea id="observaciones" name="observaciones" rows="3" 
+                                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      placeholder="Información adicional relevante para la valoración..."></textarea>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="pasoAnterior()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                                ← Anterior
+                            </button>
+                            <button type="button" onclick="calcularValoracion()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                                🧮 Calcular Valoración
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 5: RESULTADOS -->
+                <div id="paso-5" class="form-step hidden">
+                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">5</span>
+                            Resultados de la Valoración
+                        </h2>
+                        
+                        <div id="resultados-container">
+                            <!-- Los resultados se cargan dinámicamente aquí -->
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="pasoAnterior()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                                ← Anterior
+                            </button>
+                            <button type="button" onclick="generarReporte()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                📊 Generar Reporte PDF
+                            </button>
+                            <button type="button" onclick="nuevaValoracion()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                                🔄 Nueva Valoración
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 glass-effect text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm text-blue-100">
+                Sistema de Valoración de Software v1.0 • Basado en ISO/IEC 25010:2023 • 
+                Costos Colombia 2025 • Desarrollado para Auditoría y Control
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        let pasoActual = 1;
+        const totalPasos = 5;
+        let valoracionActualId = null; // Para guardar el ID de la valoración actual
+        
+        // API Base URL
+        const API_BASE = window.location.origin;
+        
+        // ================================
+        // NAVEGACIÓN ENTRE PASOS
+        // ================================
+        
+        function siguientePaso() {
+            if (validarPasoActual()) {
+                if (pasoActual < totalPasos) {
+                    pasoActual++;
+                    mostrarPaso(pasoActual);
+                    actualizarIndicadores();
+                }
+            }
+        }
+        
+        function pasoAnterior() {
+            if (pasoActual > 1) {
+                pasoActual--;
+                mostrarPaso(pasoActual);
+                actualizarIndicadores();
+            }
+        }
+        
+        function mostrarPaso(numeroPaso) {
+            // Ocultar todos los pasos
+            document.querySelectorAll('.form-step').forEach(paso => {
+                paso.classList.add('hidden');
+            });
+            
+            // Mostrar el paso actual
+            document.getElementById(`paso-${numeroPaso}`).classList.remove('hidden');
+        }
+        
+        function actualizarIndicadores() {
+            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+                const numeroStep = index + 1;
+                
+                indicator.classList.remove('active', 'completed');
+                
+                if (numeroStep < pasoActual) {
+                    indicator.classList.add('completed');
+                } else if (numeroStep === pasoActual) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.add('bg-gray-300', 'text-gray-600');
+                }
+            });
+        }
+        
+        function validarPasoActual() {
+            switch (pasoActual) {
+                case 1:
+                    const tipoSoftware = document.getElementById('tipo-software').value;
+                    const tecnologia = document.getElementById('tecnologia-principal').value;
+                    
+                    if (!tipoSoftware) {
+                        alert('Por favor seleccione el tipo de software');
+                        return false;
+                    }
+                    if (!tecnologia) {
+                        alert('Por favor seleccione la tecnología principal');
+                        return false;
+                    }
+                    return true;
+                    
+                case 2:
+                    return true; // Paso 2 es opcional en su mayoría
+                    
+                case 3:
+                    // Verificar que al menos algunas características ISO estén evaluadas
+                    const caracteristicasISO = ['security', 'functional_suitability', 'reliability'];
+                    let algunaEvaluada = false;
+                    
+                    caracteristicasISO.forEach(caracteristica => {
+                        const radios = document.querySelectorAll(`input[name="${caracteristica}"]:checked`);
+                        if (radios.length > 0) {
+                            algunaEvaluada = true;
+                        }
+                    });
+                    
+                    if (!algunaEvaluada) {
+                        alert('Por favor evalúe al menos las características principales de calidad (Seguridad, Idoneidad Funcional, Fiabilidad)');
+                        return false;
+                    }
+                    return true;
+                    
+                case 4:
+                    return true; // Paso 4 es opcional en su mayoría
+                    
+                default:
+                    return true;
+            }
+        }
+        
+        // ================================
+        // CÁLCULO DE VALORACIÓN
+        // ================================
+        
+        async function calcularValoracion() {
+            try {
+                // Mostrar indicador de carga
+                mostrarIndicadorCarga();
+                
+                // Recopilar todos los datos del formulario
+                const datosFormulario = recopilarDatosFormulario();
+                
+                // Enviar a la API
+                const respuesta = await fetch(`${API_BASE}/api/valorar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(datosFormulario)
+                });
+                
+                if (!respuesta.ok) {
+                    throw new Error('Error en la valoración');
+                }
+                
+                const resultado = await respuesta.json();
+                
+                // Guardar ID de valoración para PDF
+                if (resultado.valoracion && resultado.valoracion.id) {
+                    valoracionActualId = resultado.valoracion.id;
+                    console.log('ID de valoración guardado:', valoracionActualId);
+                }
+                
+                // Mostrar resultados
+                mostrarResultados(resultado.valoracion);
+                
+                // Ir al paso de resultados
+                pasoActual = 5;
+                mostrarPaso(5);
+                actualizarIndicadores();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al calcular la valoración. Por favor intente nuevamente.');
+            } finally {
+                ocultarIndicadorCarga();
+            }
+        }
+        
+        function recopilarDatosFormulario() {
+            const datos = {};
+            
+            // Información general
+            datos.tipo_software = document.getElementById('tipo-software').value;
+            datos.tecnologia_principal = document.getElementById('tecnologia-principal').value;
+            datos.antiguedad_anos = parseInt(document.getElementById('antiguedad-anos').value) || 0;
+            datos.en_uso_activo = document.getElementById('en-uso-activo').value === 'true';
+            datos.sector = document.getElementById('sector').value;
+            datos.descripcion = document.getElementById('descripcion').value;
+            
+            // Características técnicas
+            datos.usuarios_concurrentes = parseInt(document.getElementById('usuarios-concurrentes').value) || 1;
+            datos.usuarios_totales = parseInt(document.getElementById('usuarios-totales').value) || 1;
+            datos.integraciones_externas = parseInt(document.getElementById('integraciones-externas').value) || 0;
+            
+            // Base de datos
+            datos.base_datos = {
+                tipo: document.getElementById('tipo-bd').value
+            };
+            
+            // Funcionalidades
+            const funcionalidades = {};
+            document.querySelectorAll('input[name="funcionalidades"]:checked').forEach(checkbox => {
+                funcionalidades[checkbox.value] = true;
+            });
+            datos.funcionalidades = funcionalidades;
+            
+            // ISO 25010
+            const iso25010 = {};
+            const caracteristicasISO = [
+                'security', 'functional_suitability', 'reliability', 
+                'maintainability', 'performance_efficiency', 'usability'
+            ];
+            
+            caracteristicasISO.forEach(caracteristica => {
+                const radio = document.querySelector(`input[name="${caracteristica}"]:checked`);
+                if (radio) {
+                    iso25010[caracteristica] = parseInt(radio.value);
+                }
+            });
+            datos.iso25010 = iso25010;
+            
+            // Valor de negocio
+            datos.criticidad_negocio = parseInt(document.getElementById('criticidad-negocio').value) || 3;
+            datos.ahorro_anual_cop = parseInt(document.getElementById('ahorro-anual').value) || 0;
+            
+            // Cumplimiento
+            datos.genera_reportes_oficiales = document.getElementById('genera-reportes').checked;
+            datos.requiere_auditoria_logs = document.getElementById('auditoria-logs').checked;
+            datos.interoperabilidad_govco = document.getElementById('interoperabilidad').checked;
+            datos.maneja_datos_personales = document.getElementById('datos-personales').checked;
+            
+            datos.observaciones = document.getElementById('observaciones').value;
+            
+            return datos;
+        }
+        
+        function mostrarResultados(valoracion) {
+            const container = document.getElementById('resultados-container');
+            
+            // Formatear moneda
+            const formatearMoneda = (valor) => {
+                return new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP',
+                    minimumFractionDigits: 0
+                }).format(valor);
+            };
+            
+            container.innerHTML = `
+                <!-- Resultado Principal -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 mb-6">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Valor Económico Estimado</h3>
+                        <div class="text-4xl font-bold text-green-600 mb-2">
+                            ${formatearMoneda(valoracion.valor_minimo)} - ${formatearMoneda(valoracion.valor_maximo)}
+                        </div>
+                        <div class="text-lg text-gray-600">
+                            Valor promedio: ${formatearMoneda(valoracion.valor_promedio)}
+                        </div>
+                        <div class="mt-3">
+                            <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                Nivel de confianza: ${Math.round(valoracion.factor_confianza * 100)}%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metodología -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <h4 class="font-semibold text-blue-800 mb-2">📋 Metodología Aplicada</h4>
+                    <p class="text-sm text-blue-700">${valoracion.metodologia}</p>
+                </div>
+                
+                <!-- Desglose de Factores -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-800 mb-3">🔍 Desglose de Cálculo</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>Horas estimadas:</span>
+                                <span class="font-medium">${valoracion.desglose.horas_estimadas}h</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Costo por hora:</span>
+                                <span class="font-medium">${formatearMoneda(valoracion.desglose.costo_hora)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Valor base:</span>
+                                <span class="font-medium">${formatearMoneda(valoracion.desglose.valor_base)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-800 mb-3">⚖️ Factores de Ajuste</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>Factor calidad:</span>
+                                <span class="font-medium">${valoracion.desglose.factor_calidad.toFixed(2)}x</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Factor complejidad:</span>
+                                <span class="font-medium">${valoracion.desglose.factor_complejidad.toFixed(2)}x</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Factor negocio:</span>
+                                <span class="font-medium">${valoracion.desglose.factor_negocio.toFixed(2)}x</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Factor Colombia:</span>
+                                <span class="font-medium">${valoracion.desglose.factor_colombia.toFixed(2)}x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interpretación -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-yellow-800 mb-2">💡 Interpretación de Resultados</h4>
+                    <div class="text-sm text-yellow-700 space-y-1">
+                        <p>• El rango de valor refleja la incertidumbre típica en estimaciones de software (±20%)</p>
+                        <p>• La valoración considera el costo de desarrollo equivalente en el mercado colombiano actual</p>
+                        <p>• Los factores de ajuste reflejan la calidad, complejidad y valor específico del software evaluado</p>
+                        <p>• Un nivel de confianza alto indica que se proporcionó información completa para la evaluación</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function mostrarIndicadorCarga() {
+            const container = document.getElementById('resultados-container');
+            container.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600">Calculando valoración...</p>
+                </div>
+            `;
+        }
+        
+        function ocultarIndicadorCarga() {
+            // La función mostrarResultados reemplazará el contenido
+        }
+        
+        // ================================
+        // FUNCIONES ADICIONALES
+        // ================================
+        
+        function generarReporte() {
+            if (!valoracionActualId) {
+                alert('No hay una valoración activa para generar reporte.');
+                return;
+            }
+            
+            // Mostrar indicador de carga
+            const boton = event.target;
+            const textoOriginal = boton.innerHTML;
+            boton.innerHTML = '⏳ Generando PDF...';
+            boton.disabled = true;
+            
+            // Descargar PDF
+            const url = `${API_BASE}/api/generar-pdf/${valoracionActualId}`;
+            
+            // Crear enlace temporal para descarga
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.download = `valoracion_${valoracionActualId.substring(0, 8)}.pdf`;
+            document.body.appendChild(enlace);
+            enlace.click();
+            document.body.removeChild(enlace);
+            
+            // Restaurar botón después de un momento
+            setTimeout(() => {
+                boton.innerHTML = textoOriginal;
+                boton.disabled = false;
+            }, 2000);
+        }
+        
+        function nuevaValoracion() {
+            if (confirm('¿Está seguro que desea iniciar una nueva valoración? Se perderán los datos actuales.')) {
+                location.reload();
+            }
+        }
+        
+        // Cargar estadísticas al iniciar
+        async function cargarEstadisticas() {
+            try {
+                const respuesta = await fetch(`${API_BASE}/api/estadisticas`);
+                const stats = await respuesta.json();
+                
+                document.getElementById('contador-valoraciones').textContent = stats.total_valoraciones || 0;
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+            }
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarEstadisticas();
+            actualizarIndicadores();
+        });
+    </script>
+</body>
+</html>
