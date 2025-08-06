@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Valoración de Aplicativo en Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 960px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .question-card {
+            background-color: #f9fafb;
+            border-left: 4px solid #3b82f6;
+        }
+        .report-section {
+            background-color: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 0.75rem;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+        input[type="radio"] {
+            accent-color: #3b82f6;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #d1d5db;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+
+<div id="app" class="container mx-auto">
+    <header class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-gray-800">Herramienta de Valoración Económica</h1>
+        <p class="mt-2 text-lg text-gray-600">para Aplicativos en Microsoft Access</p>
+    </header>
+
+    <div id="valoracion-form" class="card p-8 space-y-8">
+        <h2 class="text-2xl font-semibold text-blue-600 border-b-2 border-blue-600 pb-2 mb-6">Criterios de Evaluación</h2>
+        <form id="valoracion-form-content">
+            <!-- Sección de Funcionalidades, Contexto y Cumplimiento Normativo -->
+            <section class="space-y-6">
+                <h3 class="text-xl font-medium text-gray-700">1. Funcionalidades y Cumplimiento</h3>
+                <div class="question-card p-6 rounded-lg space-y-4">
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">1.1 ¿El aplicativo cuenta con un sistema de autenticación de usuarios que segrega los permisos de acceso y funciones según roles definidos?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_autenticacion" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_autenticacion" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">1.2 ¿El aplicativo implementa un registro de auditoría (logs) detallado que permita rastrear las acciones de los usuarios, incluyendo quién, qué y cuándo se modificó un registro?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_auditoria_logs" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_auditoria_logs" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">1.3 ¿El aplicativo asegura la integridad de los datos mediante validaciones en los formularios para evitar entradas erróneas o inconsistentes?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_validacion_datos" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_validacion_datos" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">1.4 ¿La arquitectura de la base de datos está diseñada de manera que no se pierdan datos al cerrar la aplicación o ante un fallo inesperado?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_integridad_arquitectura" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_integridad_arquitectura" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">1.5 ¿El aplicativo tiene la capacidad de generar copias de seguridad (backups) automáticas de la base de datos?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_backups" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_backups" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">1.6 ¿Es posible integrar el aplicativo con otras fuentes de datos externas a través de enlaces a tablas o consultas SQL?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_integracion" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q1_integracion" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Calidad y Usabilidad -->
+            <section class="space-y-6">
+                <h3 class="text-xl font-medium text-gray-700">2. Calidad, Usabilidad y Rendimiento</h3>
+                <div class="question-card p-6 rounded-lg space-y-6">
+                    <div class="space-y-2">
+                        <label for="q2_fiabilidad" class="font-semibold text-gray-800 block">2.1 Fiabilidad: ¿Con qué frecuencia se presentan errores, bloqueos o fallos que interrumpan las tareas del usuario? (Escala del 1 al 5)</label>
+                        <input type="range" id="q2_fiabilidad" name="q2_fiabilidad" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Inestable)</span>
+                            <span>2</span>
+                            <span>3 (Regular)</span>
+                            <span>4</span>
+                            <span>5 (Muy estable)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q2_rendimiento" class="font-semibold text-gray-800 block">2.2 Rendimiento: ¿Qué tan rápido es el aplicativo al procesar datos y generar reportes? (Escala del 1 al 5)</label>
+                        <input type="range" id="q2_rendimiento" name="q2_rendimiento" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Lento)</span>
+                            <span>2</span>
+                            <span>3 (Aceptable)</span>
+                            <span>4</span>
+                            <span>5 (Muy rápido)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q2_usabilidad" class="font-semibold text-gray-800 block">2.3 Usabilidad: ¿Qué tan intuitiva y fácil de usar es la interfaz para un usuario no técnico? (Escala del 1 al 5)</label>
+                        <input type="range" id="q2_usabilidad" name="q2_usabilidad" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Difícil)</span>
+                            <span>2</span>
+                            <span>3 (Aceptable)</span>
+                            <span>4</span>
+                            <span>5 (Muy intuitiva)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q2_ergonomia" class="font-semibold text-gray-800 block">2.4 Ergonomía: ¿Qué tan bien se adapta la interfaz a la tarea del usuario, reduciendo el esfuerzo cognitivo? (Escala del 1 al 5)</label>
+                        <input type="range" id="q2_ergonomia" name="q2_ergonomia" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Pobre)</span>
+                            <span>2</span>
+                            <span>3 (Funcional)</span>
+                            <span>4</span>
+                            <span>5 (Excelente)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q2_portabilidad" class="font-semibold text-gray-800 block">2.5 Portabilidad: ¿El aplicativo depende de versiones específicas de MS Access o de otros programas? (Escala del 1 al 5)</label>
+                        <input type="range" id="q2_portabilidad" name="q2_portabilidad" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Totalmente dependiente)</span>
+                            <span>2</span>
+                            <span>3 (Moderado)</span>
+                            <span>4</span>
+                            <span>5 (Independiente)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Mantenimiento y Escalabilidad -->
+            <section class="space-y-6">
+                <h3 class="text-xl font-medium text-gray-700">3. Arquitectura y Mantenimiento</h3>
+                <div class="question-card p-6 rounded-lg space-y-6">
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">3.1 ¿La base de datos y la interfaz de usuario están separadas (Split Database)?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q3_split_db" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q3_split_db" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q3_doc_dev" class="font-semibold text-gray-800 block">3.2 Mantenibilidad: ¿El código VBA está bien comentado, estructurado y es fácil de entender? (Escala del 1 al 5)</label>
+                        <input type="range" id="q3_doc_dev" name="q3_doc_dev" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Inentendible)</span>
+                            <span>2</span>
+                            <span>3 (Regular)</span>
+                            <span>4</span>
+                            <span>5 (Muy claro)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q3_escalabilidad" class="font-semibold text-gray-800 block">3.3 Escalabilidad: ¿Qué tan fácil es agregar nuevas funcionalidades o usuarios? (Escala del 1 al 5)</label>
+                        <input type="range" id="q3_escalabilidad" name="q3_escalabilidad" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Muy difícil)</span>
+                            <span>2</span>
+                            <span>3 (Posible)</span>
+                            <span>4</span>
+                            <span>5 (Muy fácil)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">3.4 ¿Existe un manual técnico o de usuario que describa el funcionamiento interno del aplicativo y sus procesos?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q3_manual_dev" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q3_manual_dev" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">3.5 ¿El aplicativo utiliza tablas de bases de datos externas (no nativas de Access)?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q3_tablas_externas" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q3_tablas_externas" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Valor para el Negocio -->
+            <section class="space-y-6">
+                <h3 class="text-xl font-medium text-gray-700">4. Valor, Impacto y Sostenibilidad</h3>
+                <div class="question-card p-6 rounded-lg space-y-6">
+                    <div class="space-y-2">
+                        <label for="q4_criticidad" class="font-semibold text-gray-800 block">4.1 Criticidad: ¿Qué tan crítico es el aplicativo para las operaciones principales de la empresa? (Escala del 1 al 5)</label>
+                        <input type="range" id="q4_criticidad" name="q4_criticidad" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Baja)</span>
+                            <span>2</span>
+                            <span>3 (Media)</span>
+                            <span>4</span>
+                            <span>5 (Crítica)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q4_num_usuarios" class="font-semibold text-gray-800 block">4.2 ¿Cuántos usuarios activos tiene la aplicación diariamente?</label>
+                        <input type="number" id="q4_num_usuarios" name="q4_num_usuarios" value="1" min="1" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q4_costo_ahorro" class="font-semibold text-gray-800 block">4.3 ¿Cuánto ha ahorrado el aplicativo a la empresa anualmente en términos de horas de trabajo y recursos? (Estime un valor en COP)</label>
+                        <input type="number" id="q4_costo_ahorro" name="q4_costo_ahorro" value="0" min="0" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="q4_satisfaccion" class="font-semibold text-gray-800 block">4.4 Satisfacción del Usuario: ¿Qué tan satisfechos están los usuarios con el aplicativo? (Escala del 1 al 5)</label>
+                        <input type="range" id="q4_satisfaccion" name="q4_satisfaccion" min="1" max="5" value="3" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 px-1">
+                            <span>1 (Muy insatisfechos)</span>
+                            <span>2</span>
+                            <span>3 (Neutral)</span>
+                            <span>4</span>
+                            <span>5 (Muy satisfechos)</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-semibold text-gray-800">4.5 ¿El aplicativo produce reportes oficiales que deben ser presentados ante entidades regulatorias o de control?</p>
+                        <div class="flex items-center space-x-6">
+                            <label class="flex items-center space-x-2"><input type="radio" name="q4_reportes_oficiales" value="si" class="w-4 h-4"><span>Sí</span></label>
+                            <label class="flex items-center space-x-2"><input type="radio" name="q4_reportes_oficiales" value="no" class="w-4 h-4"><span>No</span></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <div class="flex justify-center mt-8 space-x-4">
+            <button id="btn-calcular" class="btn-primary">Calcular Valor</button>
+            <button id="btn-limpiar" class="btn-secondary">Limpiar</button>
+        </div>
+    </div>
+
+    <!-- Sección de Reporte -->
+    <div id="reporte-section" class="card p-8 mt-10 hidden">
+        <h2 class="text-2xl font-semibold text-blue-600 border-b-2 border-blue-600 pb-2 mb-6">Reporte de Valoración</h2>
+        <div class="report-section p-6 space-y-4">
+            <p class="text-lg font-bold text-gray-800">Valor Económico del Aplicativo:</p>
+            <p id="valor-final" class="text-4xl font-extrabold text-green-700">...</p>
+        </div>
+        <div class="mt-6 space-y-4">
+            <h3 class="text-xl font-semibold text-gray-700">Detalle de la Valoración:</h3>
+            <div id="reporte-detalle" class="space-y-2 text-gray-600">
+                <!-- El detalle se llenará con JavaScript -->
+            </div>
+        </div>
+        <div class="mt-8 flex justify-center">
+            <button id="btn-nuevo-calculo" class="btn-primary">Nuevo Cálculo</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const valoracionFormDiv = document.getElementById('valoracion-form');
+    const valoracionForm = document.getElementById('valoracion-form-content');
+    const reporteSection = document.getElementById('reporte-section');
+    const btnCalcular = document.getElementById('btn-calcular');
+    const btnLimpiar = document.getElementById('btn-limpiar');
+    const btnNuevoCalculo = document.getElementById('btn-nuevo-calculo');
+
+    // Pesos para cada criterio de evaluación, ajustados para el nuevo set de preguntas
+    const weights = {
+        q1_autenticacion: 15,
+        q1_auditoria_logs: 20,
+        q1_validacion_datos: 10,
+        q1_integridad_arquitectura: 15,
+        q1_backups: 10,
+        q1_integracion: 5,
+        q2_fiabilidad: 15,
+        q2_rendimiento: 10,
+        q2_usabilidad: 10,
+        q2_ergonomia: 5,
+        q2_portabilidad: 5,
+        q3_split_db: 10,
+        q3_doc_dev: 10,
+        q3_escalabilidad: 10,
+        q3_manual_dev: 5,
+        q3_tablas_externas: 5,
+        q4_criticidad: 25,
+        q4_satisfaccion: 10,
+        q4_reportes_oficiales: 15
+    };
+
+    const baseValue = 1500000; // Valor base inicial en COP para un desarrollo de complejidad media
+    const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
+
+    btnCalcular.addEventListener('click', () => {
+        let totalScore = 0;
+        let scoreJustification = '';
+        const formData = new FormData(valoracionForm);
+        
+        // Ponderación de preguntas de tipo Sí/No
+        const questionsSiNo = [
+            { name: 'q1_autenticacion', label: '1.1 Autenticación de usuarios', score: weights.q1_autenticacion, desc: 'Un sistema de autenticación con roles es un pilar de la seguridad y el control de acceso.' },
+            { name: 'q1_auditoria_logs', label: '1.2 Registro de auditoría (logs)', score: weights.q1_auditoria_logs, desc: 'Un registro de logs es crucial para la trazabilidad y la responsabilidad, esenciales en cualquier proceso de auditoría.' },
+            { name: 'q1_validacion_datos', label: '1.3 Validación de datos', score: weights.q1_validacion_datos, desc: 'La validación de datos previene errores y garantiza la integridad de la información.' },
+            { name: 'q1_integridad_arquitectura', label: '1.4 Integridad de la base de datos', score: weights.q1_integridad_arquitectura, desc: 'Una arquitectura robusta que previene la pérdida de datos es un indicador de calidad y fiabilidad.' },
+            { name: 'q1_backups', label: '1.5 Copias de seguridad automáticas', score: weights.q1_backups, desc: 'La capacidad de generar backups automáticos es fundamental para la recuperación de desastres y la continuidad del negocio.' },
+            { name: 'q1_integracion', label: '1.6 Integración con otras fuentes de datos', score: weights.q1_integracion, desc: 'La capacidad de integrarse con otras fuentes de datos amplía la utilidad y el valor del aplicativo.' },
+            { name: 'q3_split_db', label: '3.1 Arquitectura de Base de Datos (Split)', score: weights.q3_split_db, desc: 'Una arquitectura separada mejora el rendimiento, la seguridad y la escalabilidad del aplicativo.' },
+            { name: 'q3_manual_dev', label: '3.4 Documentación técnica o de usuario', score: weights.q3_manual_dev, desc: 'La documentación es vital para el mantenimiento, soporte y futuras actualizaciones del software.' },
+            { name: 'q3_tablas_externas', label: '3.5 Uso de tablas externas', score: weights.q3_tablas_externas, desc: 'La vinculación a tablas externas indica una mayor capacidad de integración y flexibilidad.' },
+            { name: 'q4_reportes_oficiales', label: '4.5 Reportes oficiales', score: weights.q4_reportes_oficiales, desc: 'La capacidad de generar reportes para entes de control le da un valor estratégico y de cumplimiento muy alto.' }
+        ];
+
+        questionsSiNo.forEach(q => {
+            if (formData.get(q.name) === 'si') {
+                totalScore += q.score;
+                scoreJustification += `<li><strong class="text-blue-600">${q.label}:</strong> ${q.desc}. Puntos: <strong>+${q.score}</strong></li>`;
+            } else {
+                scoreJustification += `<li><strong class="text-red-600">${q.label}:</strong> La ausencia de esta característica impacta negativamente en la calidad y el valor. Puntos: <strong>+0</strong></li>`;
+            }
+        });
+        
+        // Ponderación de preguntas de rango (1-5)
+        const questionsRange = [
+            { name: 'q2_fiabilidad', label: '2.1 Fiabilidad', score: weights.q2_fiabilidad, desc: 'Un aplicativo estable y sin errores reduce costos de soporte.' },
+            { name: 'q2_rendimiento', label: '2.2 Rendimiento', score: weights.q2_rendimiento, desc: 'Un buen rendimiento optimiza el tiempo de los usuarios.' },
+            { name: 'q2_usabilidad', label: '2.3 Usabilidad', score: weights.q2_usabilidad, desc: 'Una interfaz intuitiva reduce la curva de aprendizaje y los costos de capacitación.' },
+            { name: 'q2_ergonomia', label: '2.4 Ergonomía', score: weights.q2_ergonomia, desc: 'Una interfaz bien diseñada aumenta la eficiencia y satisfacción del usuario.' },
+            { name: 'q2_portabilidad', label: '2.5 Portabilidad', score: weights.q2_portabilidad, desc: 'La facilidad de migración a nuevas versiones o plataformas reduce la dependencia tecnológica.' },
+            { name: 'q3_doc_dev', label: '3.2 Mantenibilidad (Código)', score: weights.q3_doc_dev, desc: 'Un código bien documentado y estructurado es crucial para el futuro mantenimiento y reducción de costos.' },
+            { name: 'q3_escalabilidad', label: '3.3 Escalabilidad', score: weights.q3_escalabilidad, desc: 'La capacidad de crecimiento es un indicador clave de valor a largo plazo.' },
+            { name: 'q4_criticidad', label: '4.1 Criticidad para el Negocio', score: weights.q4_criticidad, desc: 'Un aplicativo crítico para las operaciones tiene un valor indispensable.' },
+            { name: 'q4_satisfaccion', label: '4.4 Satisfacción del Usuario', score: weights.q4_satisfaccion, desc: 'Un alto nivel de satisfacción indica un impacto positivo en los usuarios y la productividad.' }
+        ];
+
+        questionsRange.forEach(q => {
+            const rangeScore = parseFloat(formData.get(q.name));
+            totalScore += (rangeScore / 5) * q.score;
+            scoreJustification += `<li><strong class="text-blue-600">${q.label}:</strong> Puntuación de <strong>${rangeScore}/5</strong>. ${q.desc}. Puntos: <strong>+${((rangeScore / 5) * q.score).toFixed(2)}</strong></li>`;
+        });
+        
+        // Cálculo del valor final
+        const ahorroAnual = parseFloat(formData.get('q4_costo_ahorro')) || 0;
+        const numUsuarios = parseFloat(formData.get('q4_num_usuarios')) || 1;
+        const weightedScore = (totalScore / totalWeight);
+
+        // Fórmula de valoración ajustada a los nuevos criterios y el contexto colombiano
+        const scoreMultiplier = 1 + (weightedScore * 2); // Multiplicador de 1 a 3
+        const valorFinal = (baseValue * weightedScore * 2) + (ahorroAnual * 3) + (numUsuarios * 20000); // 2 años de valor base, 3 años de ahorro y valor por usuario.
+
+        // Formato a COP
+        const valorFinalCOP = new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0
+        }).format(valorFinal);
+
+        document.getElementById('valor-final').textContent = valorFinalCOP;
+        document.getElementById('reporte-detalle').innerHTML = `
+            <ul class="list-disc list-inside space-y-1">
+                <li class="font-bold text-gray-800">Criterios de Valoración:</li>
+                ${scoreJustification}
+                <li class="font-bold text-gray-800 mt-4">Análisis de Costos y Beneficios:</li>
+                <li>Se estima un costo base para el desarrollo de un aplicativo similar, ajustado por la calidad, la funcionalidad y la complejidad de la solución actual.</li>
+                <li><strong class="text-green-600">Ahorro Anual Proyectado:</strong> Se considera un ahorro anual de <strong>${new Intl.NumberFormat('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0}).format(ahorroAnual)}</strong>, proyectado a 3 años para la valoración.</li>
+                <li><strong class="text-green-600">Impacto de Usuarios:</strong> Se valora la cantidad de usuarios (<strong>${numUsuarios}</strong>), ya que esto indica el alcance y la importancia del aplicativo en la organización.</li>
+                <li class="font-bold text-gray-800 mt-4">Análisis del Valor Final:</li>
+                <li>La valoración económica es una estimación detallada basada en la utilidad, la calidad técnica, el impacto estratégico y la sostenibilidad del aplicativo.</li>
+                <li>El valor final refleja la inversión potencial en un software equivalente, el valor del cumplimiento legal, la eficiencia operativa y la satisfacción del usuario.</li>
+            </ul>
+        `;
+
+        valoracionFormDiv.classList.add('hidden');
+        reporteSection.classList.remove('hidden');
+    });
+
+    btnLimpiar.addEventListener('click', () => {
+        valoracionForm.reset();
+    });
+
+    btnNuevoCalculo.addEventListener('click', () => {
+        reporteSection.classList.add('hidden');
+        valoracionFormDiv.classList.remove('hidden');
+        valoracionForm.reset();
+    });
+});
+</script>
+
+</body>
+</html>
