@@ -1,19 +1,27 @@
-# Dependencias del Sistema de Valoración de Software
+# Dependencias del Sistema Profesional de Valoración de Software v2.0
 # Para instalar: pip install -r requirements.txt
 
+# Framework web
 Flask==2.3.3
 Flask-CORS==4.0.0
 Werkzeug==2.3.7
 
+# Generación de PDF profesionales
+reportlab==4.0.4
+
 # Base de datos
 sqlite3  # Incluido en Python estándar
 
-# Utilidades
+# Utilidades estándar
 uuid      # Incluido en Python estándar
 datetime  # Incluido en Python estándar
 json      # Incluido en Python estándar
 math      # Incluido en Python estándar
 
-# Opcional para producción
+# Para producción
 gunicorn==21.2.0  # Servidor WSGI para producción
 python-dotenv==1.0.0  # Variables de entorno
+
+# Desarrollo y testing (opcional)
+pytest==7.4.0
+pytest-flask==1.2.0

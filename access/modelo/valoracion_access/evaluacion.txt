@@ -1,29 +1,35 @@
-1
-Información General del Software
+Sistema Profesional de Valoración
+Basado en ISO/IEC 25010:2023 - Colombia 2025
+
+🏆 CERTIFICACIÓN TÉCNICA
+Estándares Internacionales + Normativa Colombiana
+
+✅ Sistema Optimizado para Valoraciones Realistas
+• Ajustes por tecnología: Access, Excel y VBA tienen multiplicadores reducidos para reflejar su costo real
+• Flexibilidad en datos: No necesita conocer todos los datos; el sistema se adapta a la información disponible
+• Contexto de desarrollo: Considera si fue desarrollo interno, tiempo parcial, con/sin metodología, etc.
+• Margen de error variable: Se ajusta según la calidad de información proporcionada
+• Valoración por tipo: Puede elegir entre conservadora, equilibrada u optimista
+📋 Información General del Software
 Tipo de Software *
 
 Sistema de Auditoría
 Tecnología Principal *
 
 Microsoft Access + VBA
-¿Cuántos años lleva el sistema en producción? (Opcional)
-1
-Solo para sistemas que siguen en uso activo. No afecta proyectos terminados.
+¿Cuántos años lleva el sistema en producción?
+Solo para sistemas que siguen en uso activo
 
 ¿El sistema sigue en uso activo?
-
+Sí - Sistema en producción activa
 No - Es solo valoración del proyecto terminado
 Sector de Aplicación
 
 Sector Público
-Descripción del Software (Opcional)
-El software es una herramienta que facilita la auditoria interna para municipios de sexta categoría de Colombia.
-
-
-----
-2
-Características Técnicas
-Usuarios Concurrentes Máximos
+Descripción del Software
+El software es una herramienta que facilita la auditoria interna para municipios de sexta categoría de Colombia
+⚙️ Características Técnicas Detalladas
+Usuarios Concurrentes Máximos *
 
 2-5 usuarios
 Número Total de Usuarios
@@ -33,166 +39,182 @@ Tipo de Base de Datos
 Archivo local (Access, SQLite, Excel)
 Número de Integraciones Externas
 0
+APIs, servicios web, intercambio de archivos, etc.
+
+Volumen de Datos Aproximado
+
+Pequeño (< 10,000 registros)
+Arquitectura del Sistema
+
+Monolítica (una sola aplicación)
 Funcionalidades Implementadas
 
-si: Autenticación y roles avanzados
+🔐 Autenticación y roles avanzados
 
-si: Reportes y dashboards complejos
+📊 Reportes y dashboards complejos
 
-Integración con sistemas externos
+🔗 Integración con sistemas externos
 
-si: Workflows y aprobaciones
+📋 Workflows y aprobaciones
 
-Dashboard ejecutivo
+📈 Dashboard ejecutivo
 
-APIs REST/Web Services
+🌐 APIs REST/Web Services
 
----------------------
+📧 Sistema de notificaciones
 
-3
-Evaluación de Calidad (ISO/IEC 25010:2023)
-Instrucciones: Evalúe cada característica en una escala del 1 al 5, donde: 1 = Muy deficiente, 2 = Deficiente, 3 = Aceptable, 4 = Bueno, 5 = Excelente
+💾 Backup automático
 
-🔒 Seguridad (Security)
+📝 Logs de auditoría detallados
+🏅 Evaluación de Calidad (ISO/IEC 25010:2023)
+Evalúe cada característica en una escala del 1 al 5, donde: 1 = Muy deficiente, 2 = Deficiente, 3 = Aceptable, 4 = Bueno, 5 = Excelente
+
+🔒 Seguridad (Security) -
 Peso: 20%
 Protección de información y datos, autenticación, autorización, trazabilidad.
 
-1
-si: 2
-3
-4
-5
-⚙️ Idoneidad Funcional (Functional Suitability)
+
+2
+Muy deficiente
+Excelente
+⚙️ Idoneidad Funcional (Functional Suitability) -
 Peso: 18%
 Grado en que el software proporciona funciones que satisfacen necesidades expresas e implícitas.
 
-1
-2
+
 3
-si: 4
-5
-🛡️ Fiabilidad (Reliability)
+Muy deficiente
+Excelente
+🛡️ Fiabilidad (Reliability) -
 Peso: 15%
 Capacidad de mantener un nivel específico de rendimiento bajo condiciones establecidas por un período determinado.
 
-1
-2
+
 3
-si: 4
-5
-🔧 Mantenibilidad (Maintainability)
+Muy deficiente
+Excelente
+🔧 Mantenibilidad (Maintainability) -
 Peso: 12%
 Facilidad con la que el software puede ser modificado para corregir defectos, mejorar rendimiento u otros atributos.
 
-1
-2
-3
-si: 4
-5
-⚡ Eficiencia de Rendimiento (Performance Efficiency)
+
+4
+Muy deficiente
+Excelente
+⚡ Eficiencia de Rendimiento (Performance Efficiency) -
 Peso: 10%
 Rendimiento relativo a la cantidad de recursos utilizados bajo condiciones declaradas.
 
-1
-2
-si: 3
-4
-5
-👥 Usabilidad (Usability)
+
+3
+Muy deficiente
+Excelente
+👥 Usabilidad (Usability) -
 Peso: 10%
 Grado en que el software puede ser entendido, aprendido, usado y resultar atractivo para el usuario.
 
-1
-2
-3
-si: 4
-5
-
----------------------------
 
 4
-Valor de Negocio y Cumplimiento
-Criticidad para el Negocio
+Muy deficiente
+Excelente
+🔄 Compatibilidad (Compatibility) -
+Peso: 8%
+Grado en que el producto puede intercambiar información con otros productos y realizar sus funciones requeridas mientras comparte el mismo ambiente de hardware o software.
+
+
+4
+Muy deficiente
+Excelente
+📦 Portabilidad (Portability) -
+Peso: 4%
+Facilidad con la que el software puede ser transferido de un ambiente a otro.
+
+
+5
+Muy deficiente
+Excelente
+🔀 Flexibilidad (Flexibility) -
+Peso: 3%
+Facilidad con la que el software puede adaptarse a cambios en requisitos y ambiente operativo.
+
+
+4
+Muy deficiente
+Excelente
+🎯 Tipo de Valoración y Nivel de Información Disponible
+Importante: Sea honesto sobre qué información conoce realmente. El sistema ajustará los cálculos para dar una valoración más realista basada en los datos disponibles.
+
+Tipo de valoración deseada *
+
+Conservadora - Valoración mínima realista
+Afecta los multiplicadores de ajuste
+
+Nivel de certeza en la información
+
+Media - Datos aproximados pero confiables
+Contexto del desarrollo
+
+👥 Desarrollado internamente (equipo propio)
+
+⏰ Desarrollado en tiempo parcial
+
+📚 Incluye tiempo de aprendizaje de tecnología
+
+🔄 Desarrollo iterativo/prototipado
+
+⚠️ Sin metodología formal de desarrollo
+
+🚨 Desarrollado con urgencia/presión de tiempo
+💼 Valor de Negocio y Cumplimiento Normativo
+Criticidad para el Negocio *
 
 2 - Baja (procesos de soporte)
-Ahorro Anual Estimado (COP)
-Ej: 5000000
-Cumplimiento y Regulaciones
+Ahorro Anual Estimado
 
-si: Genera reportes oficiales para entes de control
+Sí, puedo cuantificar los ahorros
 
-Requiere logs de auditoría detallados
+Solo puedo dar un rango aproximado
 
-Cumple estándares de interoperabilidad Gov.co
+No conozco los ahorros específicos
+Ajuste por tecnología utilizada
+Nota: El sistema aplicará automáticamente ajustes realistas según la tecnología:
 
-si: Maneja datos personales (Ley Habeas Data)
-Observaciones Adicionales
-El aplicativo presenta una estructura operativa bien organizada y se encuentra alineado con los lineamientos del Decreto 648 de 2017, lo que evidencia una adecuada comprensión de los requerimientos normativos.
+• Access/VBA: Multiplicador reducido (tecnología de bajo costo)
+• Excel/VBA: Multiplicador muy reducido (herramienta básica)
+• PHP básico: Multiplicador estándar-bajo
+• Frameworks modernos: Multiplicador estándar-alto
+¿Conoce el tiempo real de desarrollo?
 
-Desde el punto de vista técnico, el código desarrollado en VBA muestra una estructura clara y mantenible, con una mínima presencia de código espagueti. Se evidencian buenas prácticas en la separación de funcionalidades mediante módulos, lo que facilita su comprensión, mantenimiento y escalabilidad dentro del entorno de Access.
+Sí, conozco el tiempo exacto
 
-El aplicativo se encuentra en condiciones óptimas de funcionamiento dentro de las capacidades de la plataforma Microsoft Access. No obstante, al estar limitado exclusivamente a este entorno, se restringe la posibilidad de implementar características más avanzadas como el registro detallado de logs de auditoría, la interoperabilidad con sistemas externos bajo estándares Gov.co, o una interfaz de usuario más moderna y estandarizada. Estas limitaciones no afectan su funcionalidad actual, pero sí representan un techo técnico frente a futuras ampliaciones o integración con otras plataformas.
+Solo tengo fechas aproximadas
 
-----------------
-5
-Resultados de la Valoración
-Valor Económico Estimado
-$ 11.117.647 - $ 16.676.471
-Valor promedio: $ 13.897.059
-Nivel de confianza: 100%
-📋 Metodología Aplicada
-ISO 25010:2023 + COCOMO Adaptado + Mercado Colombia 2025
+No conozco el tiempo de desarrollo
+¿Conoce la inversión original?
 
-🔍 Desglose de Cálculo
-Horas estimadas:
-400h
-Costo por hora:
-$ 21.000
-Valor base:
-$ 8.400.000
-⚖️ Factores de Ajuste
-Factor calidad:
-1.10x
-Factor complejidad:
-1.00x
-Factor negocio:
-1.00x
-Factor Colombia:
-1.50x
-💡 Interpretación de Resultados
-• El rango de valor refleja la incertidumbre típica en estimaciones de software (±20%)
+Sí, conozco el costo exacto
 
-• La valoración considera el costo de desarrollo equivalente en el mercado colombiano actual
+Solo tengo un rango aproximado
 
-• Los factores de ajuste reflejan la calidad, complejidad y valor específico del software evaluado
+No conozco la inversión original
+Cumplimiento y Regulaciones Colombianas
 
-• Un nivel de confianza alto indica que se proporcionó información completa para la evaluación
+📋 Genera reportes oficiales para entes de control
 
+📊 Requiere logs de auditoría detallados
 
-------------------
+🔗 Cumple estándares de interoperabilidad Gov.co
 
-PDF:
-REPORTE DE VALORACIÓN DE SOFTWARE
-Sistema Estandarizado - Colombia 2025
-INFORMACIÓN GENERAL
-Fecha de valoración: 2025-08-05
-ID de valoración: 7691b135-0917-4b99-b112-c39e2aa63af5
-Tipo de software: sistema_auditoria
-Tecnología principal: access_vba
-RESULTADOS ECONÓMICOS
-Valor mínimo estimado: $11,117,647 COP
-Valor máximo estimado: $16,676,471 COP
-Valor promedio: $13,897,059 COP
-Nivel de confianza: 100%
-DESGLOSE TÉCNICO
-Horas estimadas: 400h
-Costo por hora: $21,000 COP
-Valor base: $8,400,000 COP
-Factor calidad: 1.10x
-Factor complejidad: 1.00x
-Factor negocio: 1.00x
-Factor Colombia: 1.50x
-OBSERVACIONES ADICIONALES
+🔒 Maneja datos personales (Ley Habeas Data)
+
+⚖️ Cumple Decreto 648/2017 (Auditoria Interna)
+
+🛡️ Implementa controles ISO 27001
+
+💰 Cumplimiento SARLAFT (sector financiero)
+
+👁️ Reportes para Contraloría General
+Observaciones Técnicas Adicionales
 El aplicativo presenta una estructura operativa bien organizada y se encuentra alineado con los
 lineamientos del Decreto 648 de 2017, lo que evidencia una adecuada comprensión de los
 requerimientos normativos. Desde el punto de vista técnico, el código desarrollado en VBA muestra
@@ -205,10 +227,5 @@ implementar características más avanzadas como el registro detallado de logs d
 interoperabilidad con sistemas externos bajo estándares Gov.co, o una interfaz de usuario más
 moderna y estandarizada. Estas limitaciones no afectan su funcionalidad actual, pero sí representan
 un techo técnico frente a futuras ampliaciones o integración con otras plataformas.
-METODOLOGÍA APLICADA
-Esta valoración se basa en estándares internacionales y análisis del mercado colombiano: • ISO/IEC
-25010:2023: Estándar internacional de calidad de software • COCOMO Adaptado: Metodología de
-estimación de costos • Análisis de mercado colombiano 2025 • Factores de ajuste por sector y
-complejidad El rango de valor (±20%) refleja la incertidumbre típica en estimaciones de software según
-la literatura científica.
-Reporte generado el 05/08/2025 23:11:18 - Sistema de Valoración v1.0
+🔍 Realizar Valoración Profesional
+🔄 Limpiar Formulario
